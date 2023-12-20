@@ -1,0 +1,54 @@
+baseURL: 'https://www.yichendong.com/'
+languageCode: 'en-us'
+title: 'Yichen Dong'
+theme: 'PaperMod'
+paginate: 5
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+menu:
+  main:
+    - identifier: "home"
+      name: "Home"
+      url: "/"
+      weight: 10
+    - identifier: "posts"
+      name: "Posts"
+      url: "/posts/"
+      weight: 20
+    - identifier: "search"
+      name: "Search"
+      url: "/search/"
+      weight: 30
+params:
+  description: "Yichen Dong's Personal Website"
+  author: "Yichen Dong"
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowToc: true
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
+  homeInfoParams:
+    Title: "Welcome to my blog!"
+    Content: "Here you'll find posts about software development, programming languages, and more."
+  socialIcons:
+    - name: github
+      title: Yichen Dong on GitHub
+      url: "https://github.com/yichen-dong"
+    - name: linkedin
+      title: Yichen Dong on LinkedIn
+      url: "https://www.linkedin.com/in/yichendong/"
+markup:
+  highlight:
+    noClasses: false
