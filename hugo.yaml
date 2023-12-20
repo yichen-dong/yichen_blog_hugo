@@ -41,7 +41,7 @@ params:
     keys: ["title", "permalink", "summary", "content"]
   homeInfoParams:
     Title: "Welcome to my blog!"
-    Content: "Here you'll find posts about software development, programming languages, and more."
+    Content: "This is a place where I'll keep my notes about what I'm doing, learning, or experimenting with. I hope you find something useful here!"
   socialIcons:
     - name: github
       title: Yichen Dong on GitHub
