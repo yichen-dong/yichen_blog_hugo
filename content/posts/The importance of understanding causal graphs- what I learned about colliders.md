@@ -1,4 +1,8 @@
-# The importance of understanding causal graphs- what I learned about colliders
++++
+title = 'The importance of understanding causal graphs- what I learned about colliders'
+date = 2024-06-17T00:37:14-05:00
+draft = false
++++
 
 # Key Takeaway
 
