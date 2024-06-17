@@ -1,7 +1,4 @@
----
-date created: "Sunday, June 16th 2024, 5:25:31 pm"
-date modified: "Monday, June 17th 2024, 1:31:15 pm"
----
+# The importance of understanding causal graphs- what I learned about colliders
 
 # Key Takeaway
 
