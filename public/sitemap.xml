@@ -2,10 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.yichendong.com/categories/</loc>
+    <loc>https://www.yichendong.com/posts/</loc>
+    <lastmod>2024-06-17T00:37:14-05:00</lastmod>
   </url><url>
-    <loc>https://www.yichendong.com/tags/</loc>
+    <loc>https://www.yichendong.com/posts/the-importance-of-understanding-causal-graphs-what-i-learned-about-colliders/</loc>
+    <lastmod>2024-06-17T00:37:14-05:00</lastmod>
   </url><url>
     <loc>https://www.yichendong.com/</loc>
+    <lastmod>2024-06-17T00:37:14-05:00</lastmod>
+  </url><url>
+    <loc>https://www.yichendong.com/posts/how_i_set_up_my_blog/</loc>
+    <lastmod>2023-12-20T00:37:14-05:00</lastmod>
+  </url><url>
+    <loc>https://www.yichendong.com/archives/</loc>
+  </url><url>
+    <loc>https://www.yichendong.com/categories/</loc>
+  </url><url>
+    <loc>https://www.yichendong.com/search/</loc>
+  </url><url>
+    <loc>https://www.yichendong.com/tags/</loc>
   </url>
 </urlset>

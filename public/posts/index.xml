@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Yichen Dong</title>
-    <link>https://www.yichendong.com/</link>
-    <description>Recent content on Yichen Dong</description>
+    <title>Posts on Yichen Dong</title>
+    <link>https://www.yichendong.com/posts/</link>
+    <description>Recent content in Posts on Yichen Dong</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 17 Jun 2024 00:37:14 -0500</lastBuildDate>
-    <atom:link href="https://www.yichendong.com/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.yichendong.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The importance of understanding causal graphs- what I learned about colliders</title>
       <link>https://www.yichendong.com/posts/the-importance-of-understanding-causal-graphs-what-i-learned-about-colliders/</link>
@@ -23,20 +23,6 @@ Background For this blog post, I&amp;rsquo;m going to focus on some of my findin
       <guid>https://www.yichendong.com/posts/how_i_set_up_my_blog/</guid>
       <description>When it came time to revamp my personal site, yichendong.com, I faced a bit of a problem. My old platform, fastpages, wasn&amp;rsquo;t supported anymore, and honestly, I couldn&amp;rsquo;t quite remember how the website worked. So, I decided it was time for a fresh start.
 Choosing the Right Platform I weighed my options: Hugo, Pelican, and Jekyll. Each had its strengths, but I initially leaned towards Jekyll for its established presence and GitHub&amp;rsquo;s seamless support.</description>
-    </item>
-    <item>
-      <title>Archive</title>
-      <link>https://www.yichendong.com/archives/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://www.yichendong.com/archives/</guid>
-      <description>archives</description>
-    </item>
-    <item>
-      <title>Search</title>
-      <link>https://www.yichendong.com/search/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://www.yichendong.com/search/</guid>
-      <description>search</description>
     </item>
   </channel>
 </rss>
