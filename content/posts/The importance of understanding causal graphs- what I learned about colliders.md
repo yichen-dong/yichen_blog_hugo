@@ -5,7 +5,6 @@ draft = false
 +++
 
 # Key Takeaway
-
 I want to share some of my findings from reading "Causal Inference: The Mixtape". The biggest of which is that if you include the wrong variables, the entire coefficient direction could be flipped (going from negative to positive). This means we need to take extra care when trying to make decisions based off of data, especially if we're not sure if we've included colliders.
 
 # Background
@@ -15,15 +14,15 @@ For this blog post, I'm going to focus on some of my findings from reading Chapt
 First, let's get some simple notations out of the way.
 
 In the following DAG, it's saying that D causes Y, and X causes D and Y.
-![Pasted image 20240616172828.png](Pasted image 20240616172828.png "wikilink")
+![Pasted image 20240616172828.png](</Pasted image 20240616172828.png> "wikilink")
 In this diagram, X is a **confounder**. If we do not include it in a model when attempting to understand the effects of D on Y, we'll get an inaccurate result, as we'll sometimes pick up on spurious correlations due to the effect of X on both D and Y.
 
 However, sometimes we cannot observe all the confounding variables, and that is represented by a dashed line.
-![Pasted image 20240616173111.png](</Pasted image 20240616173111.png>)
+![Pasted image 20240616173111.png](</Pasted image 20240616173111.png> "wikilink")
 In this case, because we cannot observe U, we cannot control it. That means that we cannot close the backdoor path and satisfy the [backdoor criterion](https://mixtape.scunning.com/03-directed_acyclical_graphs#backdoor-criterion) (which means that we are unable to accurately read the effects of D on Y because of **omitted variable bias**).
 
 Even more insidious are **colliders**, which is where two variables both affect a third variable, as shown in this DAG:
-![Pasted image 20240616173559.png](Pasted image 20240616173559.png "wikilink")
+![Pasted image 20240616173559.png](/Pasted image 20240616173559.png> "wikilink")
 Colliders, when left alone, always close a backdoor path. However, when you include them in a model, it actually opens up a backdoor path and could completely invert the coefficients.
 
 # Test on Synthetic Data, Especially the Effect of Colliders
@@ -36,7 +35,7 @@ The data we'll look at is a synthetic dataset of female discrimination on wages.
 The below DAG is from the book. I will briefly summarize the DAG and go over the data generating functions, and talk about what it means when we try to extract causal impacts from models.
 
 Let me start by going over the Causal DAG we're using, and explaining some of the concepts here:
-![Pasted image 20240616174112.png](Pasted image 20240616174112.png "wikilink")
+![Pasted image 20240616174112.png](</Pasted image 20240616174112.png> "wikilink")
 First, some explanations on the variables:
 - F stands for Female, and it directly influences discrimination (i.e. Discrimination is 1 whenever Female is 1)
 - D stands for discrimination- in this example, it is a binary variable
@@ -90,7 +89,7 @@ st
 ```
 
 Results:
-![Pasted image 20240616175131.png](Pasted image 20240616175131.png "wikilink")
+![Pasted image 20240616175131.png](</Pasted image 20240616175131.png> "wikilink")
 
 Here's how to read this. On the top, we see each of the different runs. On the left hand side, we see a list of the variables, and then a coefficient for that variable if it was included in that run. Then on the bottom, we see the R\^2 and other model performance metrics for each of the runs.
 
@@ -100,7 +99,14 @@ Once we include Ability, we see the true coefficients appear that are very close
 
 What does this mean for us as DS? It means that, unless we fully understand what our Causal DAG would look like, we have to take any causal effects that we get from models with a grain of salt. I'm not saying that we shouldn't try- especially for Sales, we often have no other way to understand causal effects than through running models on historical data. However, it would be wise to at least think through a Causal DAG first, and then iterate with the stakeholders if/when we find unintuitive results.
 \#### If We Look at the Correlation and VIF, We Would Actually See Occupation and Ability Are Highly Correlated and We Might've just Dropped One Variable
-![Pasted image 20240616223250.png](Pasted image 20240616223250.png "wikilink")
+This shows that we can't really understand what variables should be and shouldn't be in the model based just on the correlations and VIF.
+
+<figure>
+<img src="Pasted image 20240616223250.png" title="wikilink"
+alt="Pastedimage20240616223250.png" />
+<figcaption
+aria-hidden="true">Pastedimage20240616223250.png</figcaption>
+</figure>
 
 ``` python
 ## calculate VIF of regressing on wage
@@ -119,15 +125,23 @@ vif['features'] = X.columns
 print(vif)
 ```
 
-<figure>
-<img src="Pasted image 20240616223304.png" title="wikilink"
-alt="Pastedimage20240616223304.png" />
-<figcaption
-aria-hidden="true">Pastedimage20240616223304.png</figcaption>
-</figure>
+![Pasted image 20240616223304.png](</Pasted image 20240616223304.png> "wikilink")
+\#### Also, Regularization Should also Be Used Sparingly when Determining Causal Effects. In This Example, it Completely Removed the Coefficient from Female, Indicating that Female Did not Have Any Relationship with Wage
 
-#### XGBoost and SHAP Don't Really Fare Any Better
+``` python
+## Create a L1 regularized regression using the Lasso sklearn package
+from sklearn.linear_model import Lasso
+from sklearn.pipeline import make_pipeline
 
+pipe = make_pipeline(Lasso(alpha=0.1))
+pipe.fit(X, y)
+## Get the coefficients with the column names
+coefs = pd.DataFrame(pipe.named_steps['lasso'].coef_, index=X.columns, columns=['coefficients'])
+print(coefs)
+```
+
+![Pasted image 20240618002011.png](</Pasted image 20240618002011.png> "wikilink")
+\#### XGBoost and SHAP Don't Really Fare Any Better
 If we just regress on `occupation,female` in XGBoost, we see the same trends, where being female is positively associated with wage, even though we know that's not true.
 
 ``` python
