@@ -19,7 +19,7 @@ In the following DAG, it's saying that D causes Y, and X causes D and Y.
 In this diagram, X is a **confounder**. If we do not include it in a model when attempting to understand the effects of D on Y, we'll get an inaccurate result, as we'll sometimes pick up on spurious correlations due to the effect of X on both D and Y.
 
 However, sometimes we cannot observe all the confounding variables, and that is represented by a dashed line.
-![Pasted image 20240616173111.png](<Pasted image 20240616173111.png>)
+![Pasted image 20240616173111.png](</Pasted image 20240616173111.png>)
 In this case, because we cannot observe U, we cannot control it. That means that we cannot close the backdoor path and satisfy the [backdoor criterion](https://mixtape.scunning.com/03-directed_acyclical_graphs#backdoor-criterion) (which means that we are unable to accurately read the effects of D on Y because of **omitted variable bias**).
 
 Even more insidious are **colliders**, which is where two variables both affect a third variable, as shown in this DAG:
