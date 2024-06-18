@@ -124,7 +124,8 @@ print(vif)
 ```
 
 ![Pasted image 20240616223304.png](</Pasted image 20240616223304.png> "wikilink")
-\#### Also, Regularization Should also Be Used Sparingly when Determining Causal Effects. In This Example, it Completely Removed the Coefficient from Female, Indicating that Female Did not Have Any Relationship with Wage
+
+#### Also, Regularization Should also Be Used Sparingly when Determining Causal Effects. In This Example, it Completely Removed the Coefficient from Female, Indicating that Female Did not Have Any Relationship with Wage
 
 ``` python
 ## Create a L1 regularized regression using the Lasso sklearn package
@@ -161,7 +162,7 @@ shap.summary_plot(shap_values, X[['occupation','female']])
 ```
 
 <figure>
-<img src="</Pasted image 20240617132008.png>" title="wikilink"
+<img src="/Pasted image 20240617132008.png" title="wikilink"
 alt="Pastedimage20240617132008.png" />
 <figcaption
 aria-hidden="true">Pastedimage20240617132008.png</figcaption>
@@ -176,7 +177,7 @@ plt.plot()
 ```
 
 <figure>
-<img src="</Pasted image 20240617132030.png>" title="wikilink"
+<img src="/Pasted image 20240617132030.png" title="wikilink"
 alt="Pastedimage20240617132030.png" />
 <figcaption
 aria-hidden="true">Pastedimage20240617132030.png</figcaption>
@@ -211,7 +212,7 @@ st
 ```
 
 <figure>
-<img src="</Pasted image 20240617132241.png>" title="wikilink"
+<img src="/Pasted image 20240617132241.png" title="wikilink"
 alt="Pastedimage20240617132241.png" />
 <figcaption
 aria-hidden="true">Pastedimage20240617132241.png</figcaption>
@@ -246,7 +247,7 @@ st
 ```
 
 <figure>
-<img src="</Pasted image 20240617132701.png>" title="wikilink"
+<img src="/Pasted image 20240617132701.png" title="wikilink"
 alt="Pastedimage20240617132701.png" />
 <figcaption
 aria-hidden="true">Pastedimage20240617132701.png</figcaption>
@@ -281,7 +282,7 @@ st
 ```
 
 <figure>
-<img src="</Pasted image 20240617133036.png>" title="wikilink"
+<img src="/Pasted image 20240617133036.png" title="wikilink"
 alt="Pastedimage20240617133036.png" />
 <figcaption
 aria-hidden="true">Pastedimage20240617133036.png</figcaption>
