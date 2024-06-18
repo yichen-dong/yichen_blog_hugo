@@ -1,14 +1,10 @@
----
-date created: "Sunday, June 16th 2024, 5:25:31 pm"
-date modified: "Tuesday, June 18th 2024, 12:20:14 am"
----
-
 +++
 title = 'The importance of understanding causal graphs- what I learned about colliders'
 date = 2024-06-17T00:37:14-05:00
 draft = false
 +++
-\# Key Takeaway
+
+# Key Takeaway
 I want to share some of my findings from reading "Causal Inference: The Mixtape". The biggest of which is that if you include the wrong variables, the entire coefficient direction could be flipped (going from negative to positive). This means we need to take extra care when trying to make decisions based off of data, especially if we're not sure if we've included colliders.
 
 # Background
@@ -18,28 +14,25 @@ For this blog post, I'm going to focus on some of my findings from reading Chapt
 First, let's get some simple notations out of the way.
 
 In the following DAG, it's saying that D causes Y, and X causes D and Y.
-![Pasted image 20240616172828.png](Pasted image 20240616172828.png "wikilink")
+![Pasted image 20240616172828.png](</Pasted image 20240616172828.png> "wikilink")
 In this diagram, X is a **confounder**. If we do not include it in a model when attempting to understand the effects of D on Y, we'll get an inaccurate result, as we'll sometimes pick up on spurious correlations due to the effect of X on both D and Y.
 
 However, sometimes we cannot observe all the confounding variables, and that is represented by a dashed line.
-![Pasted image 20240616173111.png](Pasted image 20240616173111.png "wikilink")
+![Pasted image 20240616173111.png](</Pasted image 20240616173111.png> "wikilink")
 In this case, because we cannot observe U, we cannot control it. That means that we cannot close the backdoor path and satisfy the [backdoor criterion](https://mixtape.scunning.com/03-directed_acyclical_graphs#backdoor-criterion) (which means that we are unable to accurately read the effects of D on Y because of **omitted variable bias**).
 
 Even more insidious are **colliders**, which is where two variables both affect a third variable, as shown in this DAG:
-![Pasted image 20240616173559.png](Pasted image 20240616173559.png "wikilink")
+![Pasted image 20240616173559.png](</Pasted image 20240616173559.png> "wikilink")
 Colliders, when left alone, always close a backdoor path. However, when you include them in a model, it actually opens up a backdoor path and could completely invert the coefficients.
 
 # Test on Synthetic Data, Especially the Effect of Colliders
 
-The data we'll look at is a synthetic dataset of female discrimination on wages. From the [original text](https://mixtape.scunning.com/03-directed_acyclical_graphs#discrimination-and-collider-bias):
-\> For instance, critics once claimed that Google systematically underpaid its female employees. But Google responded that its data showed that when you take "location, tenure, job role, level and performance" into consideration, women's pay is basically identical to that of men. In other words, controlling for characteristics of the job, women received the same pay.
-\>
-\> But what if one of the ways gender discrimination creates gender disparities in earnings is through occupational sorting? If discrimination happens via the occupational match, then naïve contrasts of wages by gender controlling for occupation characteristics will likely understate the presence of discrimination in the marketplace.
+The data we'll look at is a synthetic dataset of female discrimination on wages. From the [original text](https://mixtape.scunning.com/03-directed_acyclical_graphs#discrimination-and-collider-bias). For instance, critics once claimed that Google systematically underpaid its female employees. But Google responded that its data showed that when you take "location, tenure, job role, level and performance" into consideration, women's pay is basically identical to that of men. In other words, controlling for characteristics of the job, women received the same pay. But what if one of the ways gender discrimination creates gender disparities in earnings is through occupational sorting? If discrimination happens via the occupational match, then naïve contrasts of wages by gender controlling for occupation characteristics will likely understate the presence of discrimination in the marketplace.
 
 The below DAG is from the book. I will briefly summarize the DAG and go over the data generating functions, and talk about what it means when we try to extract causal impacts from models.
 
 Let me start by going over the Causal DAG we're using, and explaining some of the concepts here:
-![Pasted image 20240616174112.png](Pasted image 20240616174112.png "wikilink")
+![Pasted image 20240616174112.png](</Pasted image 20240616174112.png> "wikilink")
 First, some explanations on the variables:
 - F stands for Female, and it directly influences discrimination (i.e. Discrimination is 1 whenever Female is 1)
 - D stands for discrimination- in this example, it is a binary variable
@@ -93,7 +86,7 @@ st
 ```
 
 Results:
-![Pasted image 20240616175131.png](Pasted image 20240616175131.png "wikilink")
+![Pasted image 20240616175131.png](</Pasted image 20240616175131.png> "wikilink")
 
 Here's how to read this. On the top, we see each of the different runs. On the left hand side, we see a list of the variables, and then a coefficient for that variable if it was included in that run. Then on the bottom, we see the R\^2 and other model performance metrics for each of the runs.
 
@@ -102,7 +95,8 @@ First, we see the run with only female as "Biased Unconditional". This one shows
 Once we include Ability, we see the true coefficients appear that are very close to how we made our numbers. But, remember that Ability technically is an unobserved variable, meaning that in the real world, we do not actually know what it is.
 
 What does this mean for us as DS? It means that, unless we fully understand what our Causal DAG would look like, we have to take any causal effects that we get from models with a grain of salt. I'm not saying that we shouldn't try- especially for Sales, we often have no other way to understand causal effects than through running models on historical data. However, it would be wise to at least think through a Causal DAG first, and then iterate with the stakeholders if/when we find unintuitive results.
-\#### If We Look at the Correlation and VIF, We Would Actually See Occupation and Ability Are Highly Correlated and We Might've just Dropped One Variable
+
+#### If We Look at the Correlation and VIF, We Would Actually See Occupation and Ability Are Highly Correlated and We Might've just Dropped One Variable
 This shows that we can't really understand what variables should be and shouldn't be in the model based just on the correlations and VIF.
 
 <figure>
@@ -129,8 +123,9 @@ vif['features'] = X.columns
 print(vif)
 ```
 
-![Pasted image 20240616223304.png](Pasted image 20240616223304.png "wikilink")
-\#### Also, Regularization Should also Be Used Sparingly when Determining Causal Effects. In This Example, it Completely Removed the Coefficient from Female, Indicating that Female Did not Have Any Relationship with Wage
+![Pasted image 20240616223304.png](</Pasted image 20240616223304.png> "wikilink")
+
+#### Also, Regularization Should also Be Used Sparingly when Determining Causal Effects. In This Example, it Completely Removed the Coefficient from Female, Indicating that Female Did not Have Any Relationship with Wage
 
 ``` python
 ## Create a L1 regularized regression using the Lasso sklearn package
@@ -144,8 +139,9 @@ coefs = pd.DataFrame(pipe.named_steps['lasso'].coef_, index=X.columns, columns=[
 print(coefs)
 ```
 
-![Pasted image 20240618002011.png](Pasted image 20240618002011.png "wikilink")
-\#### XGBoost and SHAP Don't Really Fare Any Better
+![Pasted image 20240618002011.png](</Pasted image 20240618002011.png> "wikilink")
+
+#### XGBoost and SHAP Don't Really Fare Any Better
 If we just regress on `occupation,female` in XGBoost, we see the same trends, where being female is positively associated with wage, even though we know that's not true.
 
 ``` python
@@ -165,12 +161,7 @@ shap_values = explainer.shap_values(X[['occupation','female']])
 shap.summary_plot(shap_values, X[['occupation','female']])
 ```
 
-<figure>
-<img src="Pasted image 20240617132008.png" title="wikilink"
-alt="Pastedimage20240617132008.png" />
-<figcaption
-aria-hidden="true">Pastedimage20240617132008.png</figcaption>
-</figure>
+![Pasted image 20240617132008.png](</Pasted image 20240617132008.png> "wikilink")
 
 ``` python
 ## Create pdp plot
@@ -180,12 +171,7 @@ tree_disp = PartialDependenceDisplay.from_estimator(xbg, X[['occupation','female
 plt.plot()
 ```
 
-<figure>
-<img src="Pasted image 20240617132030.png" title="wikilink"
-alt="Pastedimage20240617132030.png" />
-<figcaption
-aria-hidden="true">Pastedimage20240617132030.png</figcaption>
-</figure>
+![Pasted image 20240617132030.png](</Pasted image 20240617132030.png> "wikilink")
 
 ### Other Tests
 
@@ -215,12 +201,7 @@ st.custom_columns(["Biased Unconditional", "Biased", "Unbiased Conditional", "Te
 st
 ```
 
-<figure>
-<img src="Pasted image 20240617132241.png" title="wikilink"
-alt="Pastedimage20240617132241.png" />
-<figcaption
-aria-hidden="true">Pastedimage20240617132241.png</figcaption>
-</figure>
+![Pasted image 20240617132241.png](</Pasted image 20240617132241.png> "wikilink")
 
 From the results, we can see that the difference between having `female + occupation + ability` and `female + occupation + ability + economy` is only based on the R\^2 observed. Most of the other coefficients are very similar to what the true values are. This suggests that although predictive accuracy might decrease, if the missing variables don't affect other variables that we are curious about, we can still trust our coefficients.
 
@@ -250,12 +231,7 @@ st.custom_columns(["Biased Unconditional", "Biased", "Unbiased Conditional", "Te
 st
 ```
 
-<figure>
-<img src="Pasted image 20240617132701.png" title="wikilink"
-alt="Pastedimage20240617132701.png" />
-<figcaption
-aria-hidden="true">Pastedimage20240617132701.png</figcaption>
-</figure>
+![Pasted image 20240617132701.png](</Pasted image 20240617132701.png> "wikilink")
 
 What is really interesting here is that, **once we account for ability and economy, Female shows no relationship at all to predicting wage (a coefficient of 0)**. Even though we know that Discrimination affects Female's ability to get better occupations, once we account for Occupation, there is no affect on Wage anymore. So we might conclude that there is no discrimination against females, when in fact it just occurs earlier up the chain.
 
@@ -285,11 +261,6 @@ st.custom_columns(["Biased Unconditional", "Biased", "Unbiased Conditional", "Te
 st
 ```
 
-<figure>
-<img src="Pasted image 20240617133036.png" title="wikilink"
-alt="Pastedimage20240617133036.png" />
-<figcaption
-aria-hidden="true">Pastedimage20240617133036.png</figcaption>
-</figure>
+![Pasted image 20240617133036.png](</Pasted image 20240617133036.png> "wikilink")
 
 What's interesting here is that even if we leave out occupation and ability, we still see the correct coefficient for Female.
